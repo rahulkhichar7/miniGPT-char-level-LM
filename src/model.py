@@ -107,3 +107,51 @@ class MultiHeadAttention(nn.Module):
         output = self.dropout(output)
 
         return output
+
+
+class FeedForward(nn.Module):
+
+    def __init__(self, embedding_dim, dropout=0.0):
+        super().__init__()
+
+        self.feed_forward = nn.Sequential(
+            nn.Linear(embedding_dim, 4 * embedding_dim),
+            nn.GELU(),
+            nn.Linear(4 * embedding_dim, embedding_dim),
+            nn.Dropout(dropout)
+        )
+
+    def forward(self, x):
+        return self.feed_forward(x)
+
+
+class TransformerBlock(nn.Module):
+
+    def __init__(self, embedding_dim, n_head, block_size, dropout=0.0):
+        super().__init__()
+
+        self.ln1 = nn.LayerNorm(embedding_dim)
+
+        self.attention = MultiHeadAttention(
+            embedding_dim=embedding_dim,
+            n_head=n_head,
+            block_size=block_size,
+            dropout=dropout
+        )
+
+        self.ln2 = nn.LayerNorm(embedding_dim)
+
+        self.feed_forward = FeedForward(
+            embedding_dim=embedding_dim,
+            dropout=dropout
+        )
+
+    def forward(self, x):
+
+        # Attention + Residual connection
+        x = x + self.attention(self.ln1(x))
+
+        # Feed-forward + Residual connection
+        x = x + self.feed_forward(self.ln2(x))
+
+        return x
