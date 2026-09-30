@@ -155,3 +155,41 @@ class TransformerBlock(nn.Module):
         x = x + self.feed_forward(self.ln2(x))
 
         return x
+
+
+class MiniGPT(nn.Module):
+
+    def __init__(self, vocab_size, block_size, 
+                 embedding_dim, n_head, n_layer, dropout=0.0):
+        super().__init__()
+
+        # Embeddings
+        self.embedding = GPTEmbedding(
+            vocab_size=vocab_size,
+            block_size=block_size,
+            embedding_dim=embedding_dim
+        )
+
+        # Transformer Block
+        self.blocks = nn.Sequential(*[
+            TransformerBlock(embedding_dim=embedding_dim, n_head=n_head, block_size=block_size, dropout=dropout)
+            for _ in range(n_layer)
+        ])
+
+        # Final Layer Normalization
+        self.ln_final = nn.LayerNorm(embedding_dim)
+
+        # Final projection (Language Modeling Head)
+        self.projection_final = nn.Linear(embedding_dim, vocab_size, bias=False)
+
+    def forward(self, index):
+
+        # index : Shape : (B,T)
+        x = self.embedding(index) # Shape : (B, T, C)
+
+        x = self.blocks(x) # Shape : (B, T, C)
+        x = self.ln_final(x) # Shape : (B, T, C)
+
+        logits = self.projection_final(x) # Shape : # (B, T, vocab_size)
+
+        return logits
