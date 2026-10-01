@@ -1,8 +1,7 @@
 venv/
 env/
-data/
-models/
 papers/
+__pycache__/
 
 .env
 Test.ipynb
