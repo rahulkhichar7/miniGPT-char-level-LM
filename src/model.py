@@ -79,7 +79,7 @@ class MultiHeadAttention(nn.Module):
         head_size = embedding_dim // n_head
 
         # nn.ModuleList = a list of neural-network layers that PyTorch knows about.
-        self.head = nn.ModuleList([
+        self.heads = nn.ModuleList([
             Head(embedding_dim=embedding_dim,
                  head_size=head_size,
                  block_size=block_size,
