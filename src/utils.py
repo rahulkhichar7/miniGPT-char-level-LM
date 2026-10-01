@@ -4,6 +4,7 @@ import re
 import random
 
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 import numpy as np
 import torch
 import torch.nn as nn
@@ -179,3 +180,48 @@ def generate(
         idx = torch.cat((idx, next_token), dim=1)
 
     return tokenizer.decode(idx[0].tolist())
+
+
+def plot_embedding_pca(model, tokenizer):
+    embeddings = (
+        model.embedding.token_embedding.weight
+        .detach()
+        .cpu()
+        .numpy()
+    )
+
+    print("Embedding shape:", embeddings.shape)
+
+    pca = PCA(n_components=2)
+    embeddings_2d = pca.fit_transform(embeddings)
+
+    print("PCA shape:", embeddings_2d.shape)
+    print(
+        f"Explained variance: "
+        f"{pca.explained_variance_ratio_}"
+    )
+    print(
+        f"Total explained variance: "
+        f"{pca.explained_variance_ratio_.sum():.2%}"
+    )
+
+    plt.figure(figsize=(12, 8))
+
+    plt.scatter(
+        embeddings_2d[:, 0],
+        embeddings_2d[:, 1]
+    )
+
+    for i, char in enumerate(tokenizer.chars):
+        plt.annotate(
+            repr(char),
+            (embeddings_2d[i, 0], embeddings_2d[i, 1]),
+            xytext=(5, 5),
+            textcoords="offset points"
+        )
+
+    plt.xlabel("PC1")
+    plt.ylabel("PC2")
+    plt.title("PCA of Learned Character Embeddings")
+    plt.grid(alpha=0.2)
+    plt.show()
