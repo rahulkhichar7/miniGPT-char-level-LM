@@ -1,6 +1,6 @@
 # MiniGPT — Character-Level Language Model
 
-MiniGPT is a **character-level language model built from scratch in PyTorch**, implementing a compact GPT 2-style Transformer for next-character prediction.
+MiniGPT is a **character-level language model built from scratch in PyTorch**, implementing a compact GPT-2-style Transformer for next-character prediction.
 
 The project includes progressively larger models, local training experiments, a complete end-to-end training pipeline, checkpoint loading, text generation, perplexity evaluation, and character-embedding visualization.
 
@@ -14,29 +14,26 @@ miniGPT-char-level-LM/
 ├── data/
 │   ├── input.txt  # 1 MB text data used for training - 1.1M chars
 │
-├── fix/
-│   └── logo.png
-│
 ├── models/
-│   ├── mini_gpt_best_221k_param.pth # 221k param moder
-│   ├── mini_gpt_checkpoint_221k_param.pth
-│   ├── mini_gpt_best.pth  # 1.88M param moder
-│   └── mini_gpt_checkpoint.pth
+│   ├── mini_gpt_best_221k_param.pth # 221k param model
+│   ├── mini_gpt_checkpoint_221k_param.pth  # checkpoint for 221k param model
+│   ├── mini_gpt_best.pth  # 1.88M param model
+│   └── mini_gpt_checkpoint.pth # checkpoint for 1.88 param model
 │
 ├── notebooks/
-│   ├── MLP predictor.ipynb  # End to end MLP implementation for next char prediction
-│   └── miniGPT_local_training.ipynb  # Training of 221k M parameter model
+│   ├── MLP predictor.ipynb  # End-to-end MLP implementation for next-char prediction
+│   └── miniGPT_local_training.ipynb  # Training of 221k parameter model
 │
 ├── src/
 │   ├── __init__.py
-│   ├── config.py # Model configrations
+│   ├── config.py # Model configurations
 │   ├── data.py   # Tokenizer, data processing & loading
 │   ├── model.py  # Transformer block & miniGPT implementation
 │   ├── train.py  # Training functionalities
-│   └── utils.py  # seed, parameter count, checkpointing & plotting
+│   └── utils.py  # Seed, parameter count, checkpointing & plotting
 │
-├── Train.ipynb  # Training of 1.88 M parameter model
-└── Test.ipynb   # Testing of 1.88 M parameter model
+├── Train.ipynb  # Training of 1.88M parameter model
+└── Test.ipynb   # Testing of 1.88M parameter model
 ```
 
 ---
@@ -44,7 +41,6 @@ miniGPT-char-level-LM/
 ## Data
 
 ### `data/input.txt`
-
 
 * Original text length: **111,539 characters**
 * Cleaned text length: **106,823 characters**
@@ -55,9 +51,8 @@ miniGPT-char-level-LM/
 ---
 
 # Model Training — `Train.ipynb`
+
 ![MiniGPT Loss Curve](data/pics/Loss_curve.png)
-
-
 
 ### Main model configuration
 
@@ -77,6 +72,7 @@ miniGPT-char-level-LM/
 | Train/validation split |  `90/10` |
 | Vocabulary size        |     `29` |
 
+---
 ### Architecture
 
 The model consists of:
@@ -113,7 +109,7 @@ Linear language-modeling head
 
 # Testing & Generation — `Test.ipynb`
 
-Generation testing for 
+Generation testing for
 
 ```text
 Temperature = 0.5   → more conservative generation
