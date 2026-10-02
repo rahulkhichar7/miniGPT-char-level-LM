@@ -212,7 +212,7 @@ the strown of are and sower mo
 ---
 # Embedding Learning - from 21.43M parameter model
 
-![MiniGPT Loss Curve](data/pics/embedding_PCA.png)
+![MiniGPT Loss Curve](data/pics/Embedding_PCA.png)
 
 * **Vowels** form a clearly separated cluster.
 * **Consonants** are more spread out.
