@@ -24,6 +24,13 @@ miniGPT-char-level-LM/
 │   ├── MLP predictor.ipynb  # End-to-end MLP implementation for next-char prediction
 │   └── miniGPT_local_training.ipynb  # Training of 221k parameter model
 │
+├── embedding_model/ # 21.43M parameter model trained on 250 MB (250M chars) data
+│   ├──models/ 
+│         ├── mini_gpt_best.pth
+│         ├── mini_gpt_checkpoint.pth
+│   ├── Train.ipynb
+│   ├── Test.ipynb
+|
 ├── src/
 │   ├── __init__.py
 │   ├── config.py # Model configurations
@@ -33,7 +40,8 @@ miniGPT-char-level-LM/
 │   └── utils.py  # Seed, parameter count, checkpointing & plotting
 │
 ├── Train.ipynb  # Training of 1.88M parameter model
-└── Test.ipynb   # Testing of 1.88M parameter model
+├── Test.ipynb   # Testing of 1.88M parameter model
+└── data_downloader.ipynb # Code to download ~300 book (~250 MB) text data & merge into data/input.txt
 ```
 
 ---
