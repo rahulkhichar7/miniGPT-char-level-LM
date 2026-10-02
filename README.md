@@ -201,6 +201,17 @@ all ties you sperceived and
 you to all in and to take woult he speaks and of the come
 the strown of are and sower mo
 ```
+---
+# Embedding Learning - from 21.43M parameter model
+
+![MiniGPT Loss Curve](data/pics/embedding_PCA.png)
+
+* **Vowels** form a clearly separated cluster.
+* **Consonants** are more spread out.
+* **Numbers** are tightly clustered near the center.
+* **Special characters** show the largest spread.
+* A few characters like `q` and `t` appear as **outliers**.
+* Overall, the plot suggests that the model has learned some meaningful structure based on character type, particularly for vowels, while consonants have more varied representations
 
 ---
 
