@@ -9,7 +9,7 @@ class Config:
     checkpoint_name: str = "mini_gpt_checkpoint.pth"
     best_model_name: str = "mini_gpt_best.pth"
 
-    data_fraction: float = 0.10
+    data_fraction: float = 1
     train_split: float = 0.90
 
     block_size: int = 128

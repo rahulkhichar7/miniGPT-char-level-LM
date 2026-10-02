@@ -28,9 +28,20 @@ class CharTokenizer:
         return tokenizer
 
 
+# def preprocess_text(text):
+#     text = re.sub(r"[^a-zA-Z0-9 .*\n]", "", text)
+#     return text.lower()
+
 def preprocess_text(text):
-    text = re.sub(r"[^a-zA-Z0-9 .*\n]", "", text)
-    return text.lower()
+    text = text.lower()
+
+    # Keep printable ASCII + newline
+    text = ''.join(
+        c for c in text
+        if c in '\n\t' or 32 <= ord(c) <= 126
+    )
+
+    return text
 
 
 def load_text(path, fraction=1.0):

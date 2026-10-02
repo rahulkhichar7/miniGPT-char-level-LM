@@ -225,3 +225,84 @@ def plot_embedding_pca(model, tokenizer):
     plt.title("PCA of Learned Character Embeddings")
     plt.grid(alpha=0.2)
     plt.show()
+
+from sklearn.decomposition import PCA
+
+def plot_embedding_pca_classified(model, tokenizer):
+    embeddings = (
+        model.embedding.token_embedding.weight
+        .detach()
+        .cpu()
+        .numpy()
+    )
+
+    print("Embedding shape:", embeddings.shape)
+
+    pca = PCA(n_components=2)
+    embeddings_2d = pca.fit_transform(embeddings)
+
+    print("PCA shape:", embeddings_2d.shape)
+    print(f"Explained variance: {pca.explained_variance_ratio_}")
+    print(f"Total explained variance: {pca.explained_variance_ratio_.sum():.2%}")
+
+    vowels = set("aeiouAEIOU")
+
+    categories = {
+        "Vowels": [],
+        "Consonants": [],
+        "Numerical": [],
+        "Others": []
+    }
+
+    for i, char in enumerate(tokenizer.chars):
+        if char in vowels:
+            categories["Vowels"].append(i)
+
+        elif char.isalpha():
+            categories["Consonants"].append(i)
+
+        elif char.isdigit():
+            categories["Numerical"].append(i)
+
+        else:
+            categories["Others"].append(i)
+
+    plt.figure(figsize=(12, 8))
+
+    colors = {
+        "Vowels": "red",
+        "Consonants": "blue",
+        "Numerical": "green",
+        "Others": "black"
+    }
+
+    for category, indices in categories.items():
+
+        plt.scatter(
+            embeddings_2d[indices, 0],
+            embeddings_2d[indices, 1],
+            c=colors[category],
+            label=category,
+            s=50,
+            alpha=0.75
+        )
+
+        # Add character labels
+        for i in indices:
+            plt.annotate(
+                repr(tokenizer.chars[i]),
+                (
+                    embeddings_2d[i, 0],
+                    embeddings_2d[i, 1]
+                ),
+                xytext=(5, 5),
+                textcoords="offset points"
+            )
+
+    plt.xlabel("PC1")
+    plt.ylabel("PC2")
+    plt.title("PCA of Learned Character Embeddings")
+
+    plt.legend()
+    plt.grid(alpha=0.2)
+    plt.show()
